@@ -10,15 +10,15 @@ import { MatchContext } from "./MatchContext";
 
 export interface MatchProps {
   /** Allows you to use the component in an uncontrolled way. */
-  defaultValue?: Record<string, string | Array<string>>;
+  defaultValue?: Record<string, string>;
   /** Specify the options using `Match.Item` components anywhere within the tree. */
   children: ReactNode;
   /** Allows you to use the component in a controlled way. */
-  value?: Record<string, string | Array<string>>;
+  value?: Record<string, string>;
   /** Disables the buttons. */
   disabled?: boolean;
   /** Called with an object of key-value pairs when the user changes the choice. */
-  onChange?: (value: Record<string, string | Array<string>>) => void;
+  onChange?: (value: Record<string, string>) => void;
 }
 
 export function Match({
@@ -32,7 +32,7 @@ export function Match({
   const [activeKey, setActiveKey] = useState<string | null>(null);
   const [activeValue, setActiveValue] = useState<string | null>(null);
   const [values, setValues] =
-    useState<Record<string, string | Array<string>>>(defaultValue);
+    useState<Record<string, string>>(defaultValue);
 
   useEffect(() => {
     if (value !== undefined) {

@@ -1,7 +1,7 @@
 import { type RefObject, createContext } from "react";
 
 export interface ContextValue {
-  values: Record<string, string | Array<string>>;
+  values: Record<string, string>;
   refs: RefObject<Record<`${"key" | "value"}:${string}`, HTMLButtonElement>>;
   activeKey: string | null;
   activeValue: string | null;
