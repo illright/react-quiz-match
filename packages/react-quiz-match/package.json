@@ -6,8 +6,8 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsup ./src/index.tsx",
-    "build:watch": "tsup ./src/index.tsx --watch"
+    "build": "tsup ./src/index.ts",
+    "build:watch": "tsup ./src/index.ts --watch"
   },
   "keywords": [
     "react",

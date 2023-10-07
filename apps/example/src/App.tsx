@@ -51,23 +51,28 @@ function MatchLines({
   return (
     <div className="flex-1 min-w-[100px]">
       <svg className="absolute inset-0 w-full h-full pointer-events-none">
-        {lines.map((line, index) => (
-          <line
-            key={index}
-            x1={line.key.right[0]}
-            y1={line.key.right[1]}
-            x2={line.value.left[0]}
-            y2={line.value.left[1]}
-            className={
-              line.isCorrect === true
-                ? "stroke-green-600"
-                : line.isCorrect === false
-                ? "stroke-red-600"
-                : "stroke-gray-600"
-            }
-            strokeWidth="2"
-          />
-        ))}
+        {lines.map((line, index) => {
+          const midWayX = (line.key.right[0] + line.value.left[0]) / 2;
+
+          return (
+            <path
+              key={index}
+              d={[
+                `M ${line.key.right[0]} ${line.key.right[1]}`,
+                `C ${midWayX} ${line.key.right[1]} ${midWayX} ${line.value.left[1]} ${line.value.left[0]}, ${line.value.left[1]}`,
+              ].join(" ")}
+              className={
+                line.isCorrect === true
+                  ? "stroke-green-600"
+                  : line.isCorrect === false
+                  ? "stroke-red-600"
+                  : "stroke-gray-600"
+              }
+              fill="none"
+              strokeWidth="2"
+            />
+          );
+        })}
       </svg>
     </div>
   );
