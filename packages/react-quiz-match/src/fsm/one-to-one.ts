@@ -90,10 +90,15 @@ export const oneToOneMachine = createMachine(
           actions: assign({
             entries: ({ context: { entries, selectedKey, selectedValue } }) => {
               if (selectedKey === null || selectedValue === null) {
-                throw new Error("To make a pair, a key and a value must be selected");
+                throw new Error(
+                  "To make a pair, a key and a value must be selected",
+                );
               }
 
-              if (selectedKey in entries && entries[selectedKey] === selectedValue) {
+              if (
+                selectedKey in entries &&
+                entries[selectedKey] === selectedValue
+              ) {
                 const { [selectedKey]: _, ...rest } = entries;
 
                 return rest;
@@ -105,7 +110,9 @@ export const oneToOneMachine = createMachine(
 
                   return rest;
                 } else {
-                  const occupyingKey = Object.keys(entries).find(theKey => entries[theKey] === selectedValue)!;
+                  const occupyingKey = Object.keys(entries).find(
+                    (theKey) => entries[theKey] === selectedValue,
+                  )!;
                   const { [occupyingKey]: _, ...rest } = entries;
 
                   return { ...rest, [selectedKey]: selectedValue };

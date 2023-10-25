@@ -173,8 +173,10 @@ export const manyToManyMachine = createMachine(
                 } else {
                   newEntries[selectedKey] = [
                     ...(newEntries[selectedKey] ?? []),
-                    ...selectedValues.filter(aValue => !newEntries[selectedKey]?.includes(aValue))
-                  ]
+                    ...selectedValues.filter(
+                      (aValue) => !newEntries[selectedKey]?.includes(aValue),
+                    ),
+                  ];
                 }
               }
 

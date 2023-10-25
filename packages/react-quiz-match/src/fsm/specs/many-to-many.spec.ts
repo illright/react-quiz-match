@@ -30,7 +30,10 @@ it("allows to select several keys and then a value to make multiple pairs", () =
   actor.send({ type: "SELECT_KEY", keyId: "2" });
   actor.send({ type: "SELECT_VALUE", valueId: "a" });
 
-  expect(actor.getSnapshot().context.entries).toEqual({ "1": ["a"], "2": ["a"] });
+  expect(actor.getSnapshot().context.entries).toEqual({
+    "1": ["a"],
+    "2": ["a"],
+  });
 });
 
 it("allows to select several values and then a key to make multiple pairs", () => {
@@ -42,8 +45,7 @@ it("allows to select several values and then a key to make multiple pairs", () =
   actor.send({ type: "SELECT_KEY", keyId: "1" });
 
   expect(actor.getSnapshot().context.entries).toEqual({ "1": ["a", "b"] });
-
-})
+});
 
 it("allows to select several keys and then a value when some of these pairs already exist to create the missing ones", () => {
   const actor = createActor(manyToManyMachine, {
@@ -55,7 +57,10 @@ it("allows to select several keys and then a value when some of these pairs alre
   actor.send({ type: "SELECT_KEY", keyId: "2" });
   actor.send({ type: "SELECT_VALUE", valueId: "a" });
 
-  expect(actor.getSnapshot().context.entries).toEqual({ "1": ["a"], "2": ["a"] });
+  expect(actor.getSnapshot().context.entries).toEqual({
+    "1": ["a"],
+    "2": ["a"],
+  });
 });
 
 it("allows to select several values and then a key when some of these pairs already exist to create the missing ones", () => {
@@ -142,7 +147,10 @@ it("allows to assign several keys to a single value", () => {
   actor.send({ type: "SELECT_KEY", keyId: "2" });
   actor.send({ type: "SELECT_VALUE", valueId: "a" });
 
-  expect(actor.getSnapshot().context.entries).toEqual({ "1": ["a"], "2": ["a"] });
+  expect(actor.getSnapshot().context.entries).toEqual({
+    "1": ["a"],
+    "2": ["a"],
+  });
 });
 
 it("allows to deselect an existing pair by selecting its key and then its value", () => {
@@ -176,7 +184,10 @@ it("allows to deselect several pairs at once by selecting all their keys and the
     input: { initialEntries: { "1": ["a"], "2": ["a"] } },
   });
   actor.start();
-  expect(actor.getSnapshot().context.entries).toEqual({ "1": ["a"], "2": ["a"] });
+  expect(actor.getSnapshot().context.entries).toEqual({
+    "1": ["a"],
+    "2": ["a"],
+  });
 
   actor.send({ type: "SELECT_KEY", keyId: "1" });
   actor.send({ type: "SELECT_KEY", keyId: "2" });

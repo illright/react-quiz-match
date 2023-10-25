@@ -101,14 +101,20 @@ export const manyToOneMachine = createMachine(
         always: {
           target: "idle",
           actions: assign({
-            entries: ({ context: { entries, selectedKeys, selectedValue } }) => {
+            entries: ({
+              context: { entries, selectedKeys, selectedValue },
+            }) => {
               if (selectedKeys.length === 0 || selectedValue === null) {
-                throw new Error("To make a pair, a value and at least 1 key must be selected");
+                throw new Error(
+                  "To make a pair, a value and at least 1 key must be selected",
+                );
               }
 
               const newEntries = { ...entries };
 
-              if (selectedKeys.every(key => newEntries[key] === selectedValue)) {
+              if (
+                selectedKeys.every((key) => newEntries[key] === selectedValue)
+              ) {
                 for (const selectedKey of selectedKeys) {
                   delete newEntries[selectedKey];
                 }
