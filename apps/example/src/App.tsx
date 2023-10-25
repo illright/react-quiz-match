@@ -1,6 +1,12 @@
 import "./App.css";
-import { Match, useMatchLines } from "react-quiz-match";
-import { useState } from "react";
+import {
+  MatchLinesProvider,
+  useLineConnectionPoint,
+  useMatchItem,
+  MatchManyToOne,
+  useMatchLines,
+} from "react-quiz-match";
+import { type ReactNode, useState } from "react";
 
 function App() {
   const [disabled, setDisabled] = useState(false);
@@ -8,31 +14,30 @@ function App() {
 
   return (
     <>
-      <h1 className="mb-8">Quiz</h1>
-      <Match onChange={console.log} disabled={disabled}>
-        <div className="flex justify-between">
-          <div className="flex flex-col gap-2">
-            <Match.Item name="pizza-shop">Pizza shop</Match.Item>
-            <Match.Item name="library">Library</Match.Item>
-          </div>
+      <h1 className="mb-8">React Quiz Match</h1>
+      <MatchManyToOne
+        disabled={disabled}
+        onChange={(ctx) => console.log(ctx.entries)}
+      >
+        <MatchLinesProvider>
+          <div className="flex justify-between">
+            <div className="flex flex-col gap-2">
+              <MatchItem name="pizza-shop">Pizza shop</MatchItem>
+              <MatchItem name="library">Library</MatchItem>
+            </div>
 
-          <MatchLines
-            answers={
-              answersShown
-                ? { "pizza-shop": "user", library: "user" }
-                : undefined
-            }
-          />
+            <MatchLines />
 
-          <div className="flex flex-col gap-2">
-            <Match.Item value="post">Post</Match.Item>
-            <Match.Item value="user">User</Match.Item>
+            <div className="flex flex-col gap-2">
+              <MatchItem value="post">Post</MatchItem>
+              <MatchItem value="user">User</MatchItem>
+            </div>
           </div>
-        </div>
-      </Match>
+        </MatchLinesProvider>
+      </MatchManyToOne>
 
       <button className="mt-4" onClick={() => setDisabled(!disabled)}>
-        Toggle disabled state
+        Turn {disabled ? "off" : "on"} disabled state
       </button>
       <button className="ml-1" onClick={() => setAnswersShown(!answersShown)}>
         Toggle answers
@@ -41,17 +46,40 @@ function App() {
   );
 }
 
-function MatchLines({
-  answers,
-}: {
-  answers: Record<string, string> | undefined;
-}) {
-  const lines = useMatchLines(answers);
+function MatchItem({
+  name,
+  value,
+}: { children: ReactNode } & (
+  | { name: string; value?: never }
+  | { name?: never; value: string }
+)) {
+  const { toggle, isSelected, isDisabled } = useMatchItem(
+    name !== undefined ? { name } : { value },
+  );
+  const ref = useLineConnectionPoint(
+    name !== undefined ? "key" : "value",
+    name ?? value,
+  );
+
+  return (
+    <button
+      ref={ref}
+      disabled={isDisabled}
+      onClick={toggle}
+      className={isSelected ? "text-purple-500" : undefined}
+    >
+      {name ?? value}
+    </button>
+  );
+}
+
+function MatchLines() {
+  const matchLines = useMatchLines();
 
   return (
     <div className="flex-1 min-w-[100px]">
       <svg className="absolute inset-0 w-full h-full pointer-events-none">
-        {lines.map((line, index) => {
+        {matchLines.map((line, index) => {
           const midWayX = (line.key.right[0] + line.value.left[0]) / 2;
 
           return (
