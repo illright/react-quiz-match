@@ -1,9 +1,9 @@
 import { it, expect } from "vitest";
-import { oneToManyMachine } from "../one-to-many";
+import { manyToOneMachine } from "../many-to-one";
 import { createActor } from "xstate";
 
 it("allows to select a key and then a value to make a pair", () => {
-  const actor = createActor(oneToManyMachine);
+  const actor = createActor(manyToOneMachine);
   actor.start();
 
   actor.send({ type: "SELECT_KEY", keyId: "1" });
@@ -13,7 +13,7 @@ it("allows to select a key and then a value to make a pair", () => {
 });
 
 it("allows to select a value and then a key to make a pair", () => {
-  const actor = createActor(oneToManyMachine);
+  const actor = createActor(manyToOneMachine);
   actor.start();
 
   actor.send({ type: "SELECT_VALUE", valueId: "a" });
@@ -23,7 +23,7 @@ it("allows to select a value and then a key to make a pair", () => {
 });
 
 it("allows to select several keys and then a value to make multiple pairs", () => {
-  const actor = createActor(oneToManyMachine);
+  const actor = createActor(manyToOneMachine);
   actor.start();
 
   actor.send({ type: "SELECT_KEY", keyId: "1" });
@@ -34,7 +34,7 @@ it("allows to select several keys and then a value to make multiple pairs", () =
 });
 
 it("allows to select several keys and then a value when some of these pairs already exist to create the missing ones", () => {
-  const actor = createActor(oneToManyMachine, {
+  const actor = createActor(manyToOneMachine, {
     input: { initialEntries: { "1": "a" } },
   });
   actor.start();
@@ -47,7 +47,7 @@ it("allows to select several keys and then a value when some of these pairs alre
 });
 
 it("allows to clear selected keys", () => {
-  const actor = createActor(oneToManyMachine);
+  const actor = createActor(manyToOneMachine);
   actor.start();
   expect(actor.getSnapshot().context.selectedKeys).toEqual([]);
   expect(actor.getSnapshot().context.selectedValue).toBeNull();
@@ -72,7 +72,7 @@ it("allows to clear selected keys", () => {
 });
 
 it("allows to clear a selected value", () => {
-  const actor = createActor(oneToManyMachine);
+  const actor = createActor(manyToOneMachine);
   actor.start();
 
   actor.send({ type: "SELECT_VALUE", valueId: "a" });
@@ -91,7 +91,7 @@ it("allows to clear a selected value", () => {
 });
 
 it("allows to overwrite an existing pair with a new value", () => {
-  const actor = createActor(oneToManyMachine);
+  const actor = createActor(manyToOneMachine);
   actor.start();
 
   actor.send({ type: "SELECT_KEY", keyId: "1" });
@@ -104,7 +104,7 @@ it("allows to overwrite an existing pair with a new value", () => {
 });
 
 it("allows to assign several keys to a single value", () => {
-  const actor = createActor(oneToManyMachine);
+  const actor = createActor(manyToOneMachine);
   actor.start();
 
   actor.send({ type: "SELECT_KEY", keyId: "1" });
@@ -117,7 +117,7 @@ it("allows to assign several keys to a single value", () => {
 });
 
 it("allows to deselect an existing pair by selecting its key and then its value", () => {
-  const actor = createActor(oneToManyMachine, {
+  const actor = createActor(manyToOneMachine, {
     input: { initialEntries: { "1": "a" } },
   });
   actor.start();
@@ -130,7 +130,7 @@ it("allows to deselect an existing pair by selecting its key and then its value"
 });
 
 it("allows to deselect an existing pair by selecting its value and then its key", () => {
-  const actor = createActor(oneToManyMachine, {
+  const actor = createActor(manyToOneMachine, {
     input: { initialEntries: { "1": "a" } },
   });
   actor.start();
@@ -143,7 +143,7 @@ it("allows to deselect an existing pair by selecting its value and then its key"
 });
 
 it("allows to deselect several pairs at once by selecting all their keys and then their value", () => {
-  const actor = createActor(oneToManyMachine, {
+  const actor = createActor(manyToOneMachine, {
     input: { initialEntries: { "1": "a", "2": "a" } },
   });
   actor.start();

@@ -10,7 +10,7 @@ type Events =
   | { type: "SELECT_KEY"; keyId: string }
   | { type: "SELECT_VALUE"; valueId: string };
 
-export const oneToManyMachine = createMachine(
+export const manyToOneMachine = createMachine(
   {
     types: {} as { events: Events; context: Context; input: Input },
     initial: "idle",
